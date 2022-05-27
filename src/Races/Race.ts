@@ -23,17 +23,3 @@ abstract class Race {
 }
 
 export default Race;
-
-/*
-A classe Race existe; <
-O atributo name da classe Race pode ser lido; <
-O atributo dexterity da classe Race pode ser lido; <
-O atributo dexterity da classe Race NÃO pode ser redefinido; <
-O método maxLifePoints ao ser implementado retorna um valor numérico; <
-
-A classe Race é abstrata;
-O método maxLifePoints da classe Race é abstrato;
-O atributo name da classe Race NÃO pode ser alterado;
-O método createdRacesInstances deve existir e ser estático; 
-O método createdRacesInstances deve lançar um erro com a mensagem "Not implemented".
-*/
