@@ -57,18 +57,40 @@ class Character implements Fighter {
   public get energy(): Energy {
     return { ...this._energy };
   }
+
+  receiveDamage(attackPoints: number): number {
+    if (attackPoints > 0) {
+      this._lifePoints -= attackPoints;
+      if (this._lifePoints >= 0) this._lifePoints = -1;
+    }
+
+    return this._lifePoints;
+  }
+
+  attack(enemy: Fighter): void {
+    enemy.receiveDamage(this._strength);
+  }
+
+  levelUp(): void {
+    this._maxLifePoints += getRandomInt(1, 10);
+
+    if (this._maxLifePoints > this._race.maxLifePoints) {
+      this._maxLifePoints = this._race.maxLifePoints;
+    }
+
+    this._strength += getRandomInt(1, 10);
+    this._dexterity += getRandomInt(1, 10);
+    this._defense += getRandomInt(1, 10);
+
+    this._energy.amount = 10;
+
+    this._lifePoints = this._maxLifePoints;
+  }
+
+  special(enemy: Fighter): void {
+    enemy.levelUp();
+    this._strength = 10;
+  }
 }
 
 export default Character;
-
-// /* 
-// Os atributos da classe Character podem ser lidos mas não podem ser alterados:
-// race deve retornar o tipo Race;
-// archetype deve retornar o tipo Archetype
-// lifePoints deve retornar o tipo number;
-// strength deve retornar o tipo number;
-// defense deve retornar o tipo number;
-// dexterity deve retornar o tipo number;
-// energy deve retornar o tipo Energy.
-// Lembre-se que energy é um objeto, portanto se você retornar ele diretamente o javascript permite que as propriedades desse objetos sejam alteradas, mesmo energy sendo privado.
-// */
