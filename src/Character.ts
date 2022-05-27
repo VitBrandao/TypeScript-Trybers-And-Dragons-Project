@@ -20,7 +20,7 @@ class Character implements Fighter {
     this._race = new Elf('Legolas', 5);
     this._archetype = new Mage('Gandalf');
     this._maxLifePoints = this._race.maxLifePoints / 2;
-    this._lifePoints = this._race.maxLifePoints;
+    this._lifePoints = this._maxLifePoints;
     this._strength = getRandomInt(1, 10);
     this._defense = getRandomInt(1, 10);
     this._dexterity = this._race.dexterity;
@@ -58,26 +58,28 @@ class Character implements Fighter {
     return { ...this._energy };
   }
 
-  receiveDamage(attackPoints: number): number {
-    if (attackPoints > 0) {
+  public receiveDamage(attackPoints: number): number {
+    const damage = attackPoints - this._defense;
+
+    if (damage > 0) {
       this._lifePoints -= attackPoints;
-      if (this._lifePoints >= 0) this._lifePoints = -1;
+      if (this._lifePoints <= 0) this._lifePoints = -1;
     }
 
     return this._lifePoints;
   }
 
-  attack(enemy: Fighter): void {
+  public attack(enemy: Fighter): void {
     enemy.receiveDamage(this._strength);
   }
 
-  levelUp(): void {
+  public levelUp(): void {
     this._maxLifePoints += getRandomInt(1, 10);
 
     if (this._maxLifePoints > this._race.maxLifePoints) {
       this._maxLifePoints = this._race.maxLifePoints;
     }
-
+    
     this._strength += getRandomInt(1, 10);
     this._dexterity += getRandomInt(1, 10);
     this._defense += getRandomInt(1, 10);
@@ -87,9 +89,9 @@ class Character implements Fighter {
     this._lifePoints = this._maxLifePoints;
   }
 
-  special(enemy: Fighter): void {
-    enemy.levelUp();
-    this._strength = 10;
+  public special(enemy: Fighter): void {
+    this.attack(enemy);
+    this._lifePoints = this._race.maxLifePoints;
   }
 }
 
