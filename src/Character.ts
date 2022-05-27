@@ -1,7 +1,8 @@
-import Archetype from './Archetypes';
-import { EnergyType } from './Energy';
+import Archetype, { Mage } from './Archetypes';
+import Energy from './Energy';
 import Fighter from './Fighter';
-import Race from './Races';
+import Race, { Elf } from './Races';
+import getRandomInt from './utils';
 
 class Character implements Fighter {
   private _race: Race;
@@ -11,25 +12,28 @@ class Character implements Fighter {
   private _strength: number;
   private _defense: number;
   private _dexterity: number;
-  private _energy: EnergyType;
+  private _energy: Energy;
   private _name: string;
 
+  constructor(name: string) {
+    this._name = name;
+    this._race = new Elf('Legolas', 5);
+    this._archetype = new Mage('Gandalf');
+    this._maxLifePoints = this._race.maxLifePoints / 2;
+    this._lifePoints = this._race.maxLifePoints;
+    this._strength = getRandomInt(1, 10);
+    this._defense = getRandomInt(1, 10);
+    this._dexterity = this._race.dexterity;
+    this._energy = {
+      type_: this._archetype.energyType,
+      amount: getRandomInt(1, 10),
+    };
+  }
 }
 
 export default Character;
 
 /* 
-
-Devem ser inicializados no construtor:
-race por padrão com uma instância de Elf;
-archetype por padrão com uma instância de Mage;
-maxLifePoints por padrão com metade do maxLifePoints da raça instanciada;
-lifePoints por padrão com o mesmo valor de maxLifePoints da classe;
-strength, defense com valores aleatórios de no mínimo 1 e no máximo 10 pontos; sparklessparkles
-dexterity por padrão com a mesma destreza da raça instanciada;
-energy por padrão:
-type_ com o mesmo valor do arquétipo instanciado;
-amount com um valor aleatório de no mínimo 1 e no máximo 10 pontos. sparklessparkles
 Os atributos da classe Character podem ser lidos mas não podem ser alterados:
 race deve retornar o tipo Race;
 archetype deve retornar o tipo Archetype
