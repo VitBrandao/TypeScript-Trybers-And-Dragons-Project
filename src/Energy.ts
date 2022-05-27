@@ -6,5 +6,3 @@ interface Energy {
 export type EnergyType = 'mana' | 'stamina';
 
 export default Energy;
-
-// Energy
